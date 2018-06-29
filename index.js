@@ -14,6 +14,6 @@ module.exports = function (port) {
   }
 
   return sh(
-    `lsof -i tcp:${port} | grep LISTEN | awk '{print $2}' | xargs kill -9`
+    `[[ $(lsof -i tcp:${port} | grep LISTEN | awk '{print $2}'  | wc -l) != 0 ]] && (lsof -i tcp:${port} | grep LISTEN | awk '{print $2}'  | xargs kill -9)`
   )
 }
